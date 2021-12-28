@@ -1,0 +1,3 @@
+httpx~=0.21.1
+rc-protocol~=0.1.0
+staticconfig~=0.0.6
