@@ -39,3 +39,19 @@ class MateBot:
         if isinstance(res["data"], list):
             return [User(**x) for x in res["data"]]
         return User(**res["data"])
+
+    async def create_user(self, user_alias: str, name: str = None) -> int:
+        """This method is used to create a user
+
+        :param user_alias: Identifier of the application.
+        :param name: Optional. Name of the user
+        :return: Returns the ID of the newly created User
+        """
+        data = {
+            "user_alias": user_alias,
+            "application_id": self.config.application_id
+        }
+        if name:
+            data["name"] = name
+        res = await self.network.make_request(Http.POST, "api/v1/createUser", data=data)
+        return int(res["data"])
