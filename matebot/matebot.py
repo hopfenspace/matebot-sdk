@@ -98,3 +98,18 @@ class MateBot:
             data["amount"] = amount
         res = await self.network.make_request(Http.GET, "api/v1/getHistory", data=data)
         return [Transaction(**x) for x in res["data"]]
+
+    async def del_user_alias(self, user_id: int, application_id: int) -> bool:
+        """This method is used to delete a user alias
+
+        :param user_id: ID of the user alias
+        :param application_id: ID of the application
+
+        :return: Returns a bool if the operation was executed successfully
+        """
+        data = {
+            "user_id": user_id,
+            "application_id": application_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/deleteUserAlias", data=data)
+        return res["data"]
