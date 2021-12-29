@@ -167,3 +167,17 @@ class MateBot:
         if not res["success"]:
             print(res["info"])
         return res["data"]
+
+    async def cancel_refund(self, refund_id: int) -> bool:
+        """This method is used to cancel a refund
+
+        :param refund_id: ID of the refund
+        :return: Returns True if the refund was canceled
+        """
+        data = {
+            "refund_id": refund_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/cancelRefund", data=data)
+        if not res["success"]:
+            print(res["info"])
+        return res["success"]
