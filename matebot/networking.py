@@ -2,6 +2,7 @@ import enum
 import json
 import os
 from pprint import pprint
+from typing import Union
 
 import httpx
 import rc_protocol
@@ -32,15 +33,10 @@ class Network:
                 params=data,
                 headers=headers
             )
-        elif verb == Http.PUT:
-            response = await self.client.put(
+        elif verb == Http.POST:
+            response = await self.client.post(
                 os.path.join(self.config.uri, address),
                 json=data,
-                headers=headers
-            )
-        elif verb == Http.DELETE:
-            response = await self.client.delete(
-                os.path.join(self.config.uri, address),
                 headers=headers
             )
 
