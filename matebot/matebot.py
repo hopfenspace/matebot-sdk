@@ -55,3 +55,22 @@ class MateBot:
             data["name"] = name
         res = await self.network.make_request(Http.POST, "api/v1/createUser", data=data)
         return int(res["data"])
+
+    async def perform_transaction(self, sender_id: int, receiver_id: int, amount: int, reason: str) -> int:
+        """This method is used to perform a transaction
+
+        :param sender_id: ID of the sender
+        :param receiver_id: ID of the receiver
+        :param amount: Positive amount to send
+        :param reason: Reason for history
+
+        :return: Returns the ID of the transaction
+        """
+        data = {
+            "sender_id": sender_id,
+            "receiver_id": receiver_id,
+            "amount": amount,
+            "reason": reason
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/performTransaction", data=data)
+        return int(res["data"])
