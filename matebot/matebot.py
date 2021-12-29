@@ -31,7 +31,10 @@ class MateBot:
         :param user_id: Optional. Queries only the specified user.
         :return: List of Users or single User
         """
-        res = await self.network.make_request(Http.GET, "api/v1/getUser", data={"filter": user_id})
+        data = {}
+        if user_id:
+            data["filter"] = user_id
+        res = await self.network.make_request(Http.GET, "api/v1/getUser", data=data)
         if not res:
             return
         if not res["data"]:
