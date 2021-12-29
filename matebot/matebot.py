@@ -4,6 +4,7 @@ from typing import List, Any, Union
 from matebot.config import Config
 from matebot.networking import Network, Http
 from matebot.objects.consumable import Consumable
+from matebot.objects.transaction import Transaction
 from matebot.objects.user import User
 
 
@@ -81,3 +82,19 @@ class MateBot:
         }
         res = await self.network.make_request(Http.POST, "api/v1/performTransaction", data=data)
         return int(res["data"])
+
+    async def get_history(self, target_id: int, amount: int = None) -> list[Transaction]:
+        """This method is used to retrieve the history of a target.
+
+        :param target_id: ID of the target
+        :param amount: Optional. Amount of transactions to retrieve.
+
+        :return: Returns a list of the retrieved transactions
+        """
+        data = {
+            "target_id": target_id
+        }
+        if amount:
+            data["amount"] = amount
+        res = await self.network.make_request(Http.GET, "api/v1/getHistory", data=data)
+        return [Transaction(**x) for x in res["data"]]
