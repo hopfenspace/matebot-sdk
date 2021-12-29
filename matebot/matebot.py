@@ -21,7 +21,11 @@ class MateBot:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.network.client.aclose()
 
-    async def get_consumables(self):
+    async def get_consumables(self) -> list[Union[Consumable, None]]:
+        """This method is used to get the list of Consumables
+
+        :return: List of Consumables or empty list
+        """
         res = await self.network.make_request(Http.GET, "api/v1/getConsumables")
         return [Consumable(**x) for x in res["data"]]
 
