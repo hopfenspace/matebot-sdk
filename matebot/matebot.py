@@ -147,3 +147,23 @@ class MateBot:
         if not res["success"]:
             print(res["info"])
         return res["success"]
+
+    async def start_refund(self, user_id: int, amount: int, reason: str = None) -> int:
+        """This method is used to start a refund process for a specific user
+
+        :param user_id: ID of the user
+        :param amount: Amount of the refund
+        :param reason: Optional. Reason of the refund
+
+        :return: ID of the refund
+        """
+        data = {
+            "user_id": user_id,
+            "amount": amount,
+        }
+        if reason:
+            data["reason"] = reason
+        res = await self.network.make_request(Http.POST, "api/v1/startRefund", data=data)
+        if not res["success"]:
+            print(res["info"])
+        return res["data"]
