@@ -40,9 +40,9 @@ class Network:
                 headers=headers
             )
 
-        if response.status_code == 200 or response.status_code == 201:
+        if response.status_code == 200 or response.status_code == 201 or response.status_code == 409:
             decoded = json.loads(response.text)
-            if decoded["success"]:
+            if "success" in decoded:
                 return decoded
             else:
                 print(decoded["info"])

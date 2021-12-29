@@ -112,4 +112,22 @@ class MateBot:
             "application_id": application_id
         }
         res = await self.network.make_request(Http.POST, "api/v1/deleteUserAlias", data=data)
-        return res["data"]
+        return res["success"]
+
+    async def start_vouch(self, user_id, target_id) -> bool:
+        """This method is used to start vouching for another user
+
+        :param user_id: ID of the vouching user
+        :param target_id: ID of the user that is vouched for
+
+        :return: Returns True if the operation was successful
+        """
+        data = {
+            "user_id": user_id,
+            "target_id": target_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/startVouch", data=data)
+        if not res["success"]:
+            print(res["info"])
+        return res["success"]
+
