@@ -3,6 +3,7 @@ from typing import List, Any, Union
 
 from matebot.config import Config
 from matebot.networking import Network, Http
+from matebot.objects.communism import Communism
 from matebot.objects.consumable import Consumable
 from matebot.objects.transaction import Transaction
 from matebot.objects.user import User
@@ -297,3 +298,18 @@ class MateBot:
         if not res["success"]:
             print(res["info"])
         return res["success"]
+
+    async def get_communisms(self, communism_id: Union[int, None] = None) -> Union[list[Communism], Communism]:
+        """This method is used to retrieve communisms.
+        If no communism_id is specified, just active communisms are returned
+
+        :param communism_id: Optional. ID of the communism
+        :return: List of communisms or single communism, if id was supplied
+        """
+        data = {}
+        if communism_id:
+            data["communism_id"] = communism_id
+        res = await self.network.make_request(Http.GET, "api/v1/getCommunisms", data=data)
+        if communism_id:
+            return Communism(**res["data"])
+        return [Communism(**x) for x in res["data"]]
