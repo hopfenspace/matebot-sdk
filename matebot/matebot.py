@@ -181,3 +181,21 @@ class MateBot:
         if not res["success"]:
             print(res["info"])
         return res["success"]
+
+    async def vote_refund(self, user_id: int, refund_id: int, positive: bool) -> bool:
+        """This method is used to vote for a refund
+
+        :param user_id: ID of the user that wants to vote
+        :param refund_id: ID of the refund
+        :param positive: Vote bool
+
+        :return: Returns True if the vote action was successful
+        """
+        data = {
+            "user_id": user_id,
+            "refund_id": refund_id,
+            "positive": positive
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/voteRefund", data=data)
+        return res["success"]
+
