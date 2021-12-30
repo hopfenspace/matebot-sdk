@@ -227,3 +227,23 @@ class MateBot:
             print(res["info"])
             return
         return res["data"]
+
+    async def vote_membership(self, user_id: int, membership_poll_id: int, positive: bool) -> bool:
+        """This method is used to vote on a membership request
+
+        :param user_id: ID of the user
+        :param membership_poll_id: ID of the membership request
+        :param positive: Vote
+
+        :return: True if the operation was successful
+        """
+        data = {
+            "user_id": user_id,
+            "membership_poll_id": membership_poll_id,
+            "positive": positive
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/voteMembership", data=data)
+        if not res["success"]:
+            print(res["info"])
+            return False
+        return res["success"]
