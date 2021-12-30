@@ -265,3 +265,19 @@ class MateBot:
         if res["success"]:
             return res["data"]
         print(res["info"])
+
+    async def end_communism(self, user_id: int, communism_id: int) -> bool:
+        """This method is used to end a communism
+
+        :param user_id: ID of the user
+        :param communism_id: ID of the communism
+        :return: True if the operation was successful
+        """
+        data = {
+            "user_id": user_id,
+            "communism_id": communism_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/endCommunism", data=data)
+        if not res["success"]:
+            print(res["info"])
+        return res["success"]
