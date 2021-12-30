@@ -313,3 +313,19 @@ class MateBot:
         if communism_id:
             return Communism(**res["data"])
         return [Communism(**x) for x in res["data"]]
+
+    async def join_communism(self, user_id: int, communism_id: int) -> bool:
+        """This method is used to join a communism
+
+        :param user_id: ID of the user
+        :param communism_id: ID of the communism
+        :return: True if the operation was successful
+        """
+        data = {
+            "user_id": user_id,
+            "communism_id": communism_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/joinCommunism", data=data)
+        if not res["success"]:
+            print(res["info"])
+        return res["success"]
