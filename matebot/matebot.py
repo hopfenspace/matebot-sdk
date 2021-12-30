@@ -212,3 +212,18 @@ class MateBot:
         }
         res = await self.network.make_request(Http.POST, "api/v1/retractRefundVote", data=data)
         return res["success"]
+
+    async def request_membership(self, user_id: int) -> Union[None, int]:
+        """This method is used to create a membership request
+
+        :param user_id: ID of the user
+        :return: ID of the MembershipPoll
+        """
+        data = {
+            "user_id": user_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/requestMembership", data=data)
+        if not res["success"]:
+            print(res["info"])
+            return
+        return res["data"]
