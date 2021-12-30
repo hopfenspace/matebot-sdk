@@ -199,3 +199,16 @@ class MateBot:
         res = await self.network.make_request(Http.POST, "api/v1/voteRefund", data=data)
         return res["success"]
 
+    async def retract_refund_vote(self, user_id: int, refund_id: int) -> bool:
+        """This method is used to retract the vote from a refund request
+
+        :param user_id: ID of the user the vote originated
+        :param refund_id: ID of the refund
+        :return: Returns True if the operation was successful
+        """
+        data = {
+            "user_id": user_id,
+            "refund_id": refund_id
+        }
+        res = await self.network.make_request(Http.POST, "api/v1/retractRefundVote", data=data)
+        return res["success"]
